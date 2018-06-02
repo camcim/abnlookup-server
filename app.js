@@ -9,6 +9,8 @@ var http = require('http'),
     errorhandler = require('errorhandler'),
     mongoose = require('mongoose');
 
+var MongoStore = require('connect-mongo')(session);
+
 var isProduction = process.env.NODE_ENV === 'production';
 
 // Create global app object
@@ -26,7 +28,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.enable('trust proxy');
 
-app.use(session({ secret: 'conduit', proxy : true, cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
+app.use(session({ secret: 'conduit', store: new MongoStore({ mongooseConnection: mongoose.connection }), proxy : true, cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
 
 if (!isProduction) {
   app.use(errorhandler());
