@@ -28,10 +28,11 @@ app.use(express.static(__dirname + '/public'));
 
 app.enable('trust proxy');
 
-app.use(session({ secret: 'conduit', store: new MongoStore({ mongooseConnection: mongoose.connection }), proxy : true, cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
-
 if (!isProduction) {
+  app.use(session({ secret: "conduit", store: new MongoStore({ mongooseConnection: mongoose.connection }), proxy : true, cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
   app.use(errorhandler());
+} else {
+  app.use(session({ secret: process.env.SECRET_KEY, store: new MongoStore({ mongooseConnection: mongoose.connection }), proxy : true, cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
 }
 
 if(isProduction){
