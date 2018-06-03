@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "conduit on node",
   "main": "app.js",
-  engines: {
+  "engines": {
     "node": "8.11.1",
     "npm": "6.0.1"
   },
